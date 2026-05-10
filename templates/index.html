@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cleantex Dry Cleaners | Premium Laundry Service</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',sans-serif; background:#f4f7fc; color:#1f2a3e; }
+        
+        .hero {
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            background-attachment: fixed; min-height: 100vh; display: flex;
+            align-items: center; justify-content: center; text-align: center;
+            color: white; position: relative; z-index: 1;
+        }
+        .hero-overlay {
+            position: absolute; top:0; left:0; width:100%; height:100%;
+            background: linear-gradient(135deg, rgba(26,26,46,0.7), rgba(22,33,62,0.5));
+            z-index:1;
+        }
+        .hero-content { 
+            position: relative; z-index:2; max-width:900px; padding:2rem;
+            backdrop-filter: blur(5px); background: rgba(255,255,255,0.1);
+            border-radius: 40px; border: 1px solid rgba(255,255,255,0.2);
+        }
+        .hero h1 { font-size:3.8rem; font-weight:700; margin-bottom:1rem; text-shadow:0 4px 20px rgba(0,0,0,0.3); }
+        .hero p { font-size:1.4rem; margin-bottom:2rem; color:#ffefcf; }
+        .badges { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
+        .badges span { background:rgba(255,255,255,0.2); backdrop-filter:blur(10px); padding:8px 22px; border-radius:60px; font-weight:600; }
+        
+        .gallery-section { 
+            padding:5rem 2rem; text-align:center; position:relative; z-index:2;
+            background: rgba(244,247,252,0.95); backdrop-filter: blur(10px);
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+        .gallery-section h2 { font-size:2.5rem; margin-bottom:2.5rem; color:#1f2a3e; }
+        .gallery-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:2rem; max-width:1300px; margin:auto; }
+        .gallery-card {
+            background: white; border-radius:28px; overflow:hidden;
+            box-shadow:0 15px 35px rgba(0,0,0,0.1); transition:transform 0.3s;
+        }
+        .gallery-card:hover { transform:translateY(-8px); }
+        .gallery-card img { width:100%; height:240px; object-fit:cover; display:block; }
+        .gallery-card p { padding:1.2rem; font-weight:600; background:white; margin:0; }
+        
+        .services-preview { 
+            padding:4rem 2rem; text-align:center; position:relative; z-index:2;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+        .services-preview h2 { margin-bottom:2rem; }
+        .service-chips { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; max-width:1000px; margin:auto; }
+        .chip { background:#1f8a4c; color:white; padding:12px 28px; border-radius:50px; font-weight:600; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+        
+        .proceed-fab { position:fixed; bottom:80px; right:30px; background:linear-gradient(120deg,#1f8a4c,#0e5e34); color:white; padding:16px 32px; border-radius:60px; font-weight:bold; cursor:pointer; box-shadow:0 10px 25px rgba(0,0,0,0.2); z-index:1000; display:flex; gap:10px; transition:transform 0.2s; border:none; font-size:1rem; }
+        .proceed-fab:hover { transform:scale(1.03); }
+        
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); backdrop-filter:blur(5px); z-index:2000; align-items:center; justify-content:center; }
+        .modal.active { display:flex; }
+        .modal-card { background:white; max-width:550px; width:90%; padding:2rem; border-radius:32px; text-align:center; max-height:90vh; overflow-y:auto; position:relative; }
+        .modal-card h2 { margin-bottom:1rem; }
+        .input-group { position:relative; margin:15px 0; }
+        .input-group input, .input-group select, .input-group textarea { width:100%; padding:12px 15px; border:1px solid #ccc; border-radius:50px; font-size:1rem; font-family:inherit; }
+        .input-group textarea { border-radius:20px; resize:vertical; }
+        .toggle-password { position:absolute; right:15px; top:50%; transform:translateY(-50%); cursor:pointer; color:#888; }
+        
+        button { background:#1f8a4c; color:white; border:none; padding:12px 24px; border-radius:50px; font-weight:600; cursor:pointer; margin-top:12px; width:100%; font-size:1rem; transition:background 0.2s; }
+        button:hover { background:#0e5e34; }
+        button.danger { background:#b33; }
+        button.danger:hover { background:#922; }
+        button.small { width:auto; padding:6px 16px; font-size:0.85rem; margin:2px; }
+        
+        .dashboard-container { max-width:1400px; margin:2rem auto; padding:0 1.5rem; }
+        .dashboard-header { background:white; border-radius:30px; padding:1.5rem 2rem; margin-bottom:2rem; box-shadow:0 4px 12px rgba(0,0,0,0.05); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+        .grid-2col { display:grid; grid-template-columns:repeat(auto-fit,minmax(380px,1fr)); gap:2rem; }
+        
+        .card {
+            background: white; border-radius:28px; padding:1.5rem;
+            box-shadow:0 10px 25px rgba(0,0,0,0.05);
+            position: relative; overflow: hidden;
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+        .card h3 { font-size:1.5rem; margin-bottom:1.2rem; border-left:5px solid #1f8a4c; padding-left:1rem; position:relative; z-index:1; }
+        .card h4 { margin:1rem 0 0.5rem; color:#555; position:relative; z-index:1; }
+        .card label, .card input, .card select, .card textarea, .card button, .card div, .card p, .card strong, .card small { position:relative; z-index:1; }
+        label { font-weight:600; display:block; margin-top:12px; margin-bottom:4px; font-size:0.9rem; color:#555; }
+        input, select, textarea { width:100%; padding:10px 14px; border:1px solid #cfdfe8; border-radius:18px; font-family:inherit; font-size:0.95rem; margin-bottom:6px; }
+        textarea { resize:vertical; }
+        
+        .service-item, .user-row, .worker-item, .machine-item { background:rgba(248,250,252,0.9); padding:12px 15px; border-radius:20px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; position:relative; z-index:1; }
+        
+        footer { background:#1e2a32; color:#ccc; margin-top:4rem; position:relative; z-index:2; }
+        .footer-inner { max-width:1300px; margin:auto; padding:2rem; display:flex; flex-wrap:wrap; gap:2rem; justify-content:space-between; align-items:center; }
+        .footer-left { flex:1; display:flex; gap:2rem; align-items:center; flex-wrap:wrap; }
+        .footer-left a { color:#ffc107; text-decoration:none; cursor:pointer; }
+        .footer-left a:hover { text-decoration:underline; }
+        .footer-right button { background:#1f8a4c; width:auto; padding:10px 20px; }
+        
+        .order-card { background:rgba(248,250,252,0.9); border-radius:20px; padding:1rem; margin-bottom:1rem; border-left:5px solid #1f8a4c; position:relative; z-index:1; }
+        .legal-text { text-align:left; max-height:60vh; overflow-y:auto; padding-right:10px; }
+        .legal-text h4 { margin-top:1rem; margin-bottom:0.5rem; color:#1f8a4c; }
+        .legal-text p { margin-bottom:0.5rem; line-height:1.4; font-size:0.9rem; }
+        
+        .close-btn { position:absolute; top:15px; right:20px; font-size:28px; cursor:pointer; color:#888; background:none; border:none; padding:0; width:auto; z-index:5; }
+        .close-btn:hover { color:#333; }
+        hr { margin:1.5rem 0; border:none; border-top:1px solid #e0e0e0; position:relative; z-index:1; }
+        
+        .result-message { margin-top:10px; padding:10px; border-radius:10px; font-size:0.9rem; position:relative; z-index:1; }
+        .result-message.success { background:#e8f5e9; color:#2e7d32; }
+        .result-message.error { background:#ffebee; color:#c62828; }
+        .fin-card { padding:15px; border-radius:15px; text-align:center; }
+        
+        @media (max-width:760px) { 
+            .hero h1 { font-size:2.2rem; } 
+            .grid-2col { grid-template-columns:1fr; } 
+            .footer-inner { flex-direction:column; text-align:center; } 
+            .footer-left { justify-content:center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HOMEPAGE -->
+<div class="hero" id="heroSection">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>✨ Cleantex Dry Cleaners</h1>
+        <p>From Coffee Stain to Champagne Shine – Same Day Service</p>
+        <div class="badges">
+            <span>🧥 1-Hour Express</span>
+            <span>👔 Wedding Gown Specialists</span>
+            <span>♻️ Eco-Friendly Cleaning</span>
+            <span>⭐ 4.9 ★ (2,345 reviews)</span>
+        </div>
+    </div>
+</div>
+
+<div class="gallery-section" id="gallerySection">
+    <h2>👗 See the Transformation</h2>
+    <div class="gallery-grid" id="galleryGrid"></div>
+</div>
+
+<div class="services-preview" id="servicesSection">
+    <h2>💎 Our Premium Services (KES)</h2>
+    <div class="service-chips" id="serviceChipsPreview"></div>
+</div>
+
+<button class="proceed-fab" id="proceedBtn"><i class="fas fa-arrow-right"></i> Proceed to Dashboard</button>
+
+<!-- AUTH MODAL -->
+<div id="authModal" class="modal">
+    <div class="modal-card">
+        <span class="close-btn" id="closeAuthModal">&times;</span>
+        <div id="loginView">
+            <h2>🔐 Login</h2>
+            <div class="input-group"><input type="text" id="loginUsername" placeholder="Username"></div>
+            <div class="input-group"><input type="password" id="loginPassword" placeholder="Password"><i class="fas fa-eye toggle-password" data-target="loginPassword"></i></div>
+            <button id="loginBtn">Login</button>
+            <p style="margin-top:15px;">No account? <a href="#" id="showRegisterView">Register</a> | <a href="#" id="showForgotView">Forgot password?</a></p>
+        </div>
+        <div id="registerView" style="display:none;">
+            <h2>📝 Register</h2>
+            <div class="input-group"><input type="text" id="regFullName" placeholder="Full Name"></div>
+            <div class="input-group"><input type="text" id="regUsername" placeholder="Username (3-30 chars)"></div>
+            <div class="input-group"><input type="email" id="regEmail" placeholder="Email"></div>
+            <div class="input-group"><input type="text" id="regPhone" placeholder="Phone (e.g., 0712345678)"></div>
+            <div class="input-group"><input type="password" id="regPassword" placeholder="Password (min 6 chars)"><i class="fas fa-eye toggle-password" data-target="regPassword"></i></div>
+            <button id="registerBtn">Register</button>
+            <p style="margin-top:15px;"><a href="#" id="showLoginView">Back to Login</a></p>
+        </div>
+        <div id="forgotView" style="display:none;">
+            <h2>🔑 Reset Password</h2>
+            <div class="input-group"><input type="email" id="resetEmail" placeholder="Your email address"></div>
+            <button id="forgotBtn">Send Reset Link</button>
+            <p style="margin-top:15px;"><a href="#" id="backToLoginView">Back to Login</a></p>
+            <div id="resetMessage" style="margin-top:15px;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- PRIVACY MODAL -->
+<div id="privacyModal" class="modal">
+    <div class="modal-card">
+        <span class="close-btn" id="closePrivacyBtn">&times;</span>
+        <h2>🔒 Privacy Policy</h2>
+        <div class="legal-text">
+            <h4>1. Information We Collect</h4>
+            <p>We collect personal information that you voluntarily provide when you register, place an order, or communicate with us including name, email, phone number.</p>
+            <h4>2. How We Use It</h4>
+            <p>We use your information to process orders, communicate status, and improve services. We do not sell your data.</p>
+            <h4>3. Contact</h4>
+            <p>For questions, email safarisoftwares@gmail.com.</p>
+        </div>
+    </div>
+</div>
+
+<!-- TERMS MODAL -->
+<div id="termsModal" class="modal">
+    <div class="modal-card">
+        <span class="close-btn" id="closeTermsBtn">&times;</span>
+        <h2>📜 Terms of Use</h2>
+        <div class="legal-text">
+            <h4>1. Acceptance</h4><p>By using our services, you agree to these Terms.</p>
+            <h4>2. Orders & Payments</h4><p>Orders confirmed after payment. Prices in KES.</p>
+            <h4>3. Contact</h4><p>Email: safarisoftwares@gmail.com</p>
+        </div>
+    </div>
+</div>
+
+<!-- WORKER FORM MODAL -->
+<div id="workerFormModal" class="modal">
+    <div class="modal-card">
+        <span class="close-btn" id="closeWorkerModal">&times;</span>
+        <h2 id="workerFormTitle">Add Worker</h2>
+        <input type="hidden" id="workerEditId">
+        <div class="input-group"><input type="text" id="workerName" placeholder="Worker name"></div>
+        <div class="input-group"><input type="text" id="workerRole" placeholder="Role"></div>
+        <div class="input-group"><input type="text" id="workerPhone" placeholder="Phone"></div>
+        <div class="input-group"><input type="number" id="workerWage" placeholder="Daily wage (KES)" step="0.01"></div>
+        <button id="saveWorkerBtn">Save Worker</button>
+    </div>
+</div>
+
+<!-- MACHINE FORM MODAL -->
+<div id="machineFormModal" class="modal">
+    <div class="modal-card">
+        <span class="close-btn" id="closeMachineModal">&times;</span>
+        <h2 id="machineFormTitle">Add Machine</h2>
+        <input type="hidden" id="machineEditId">
+        <div class="input-group"><input type="text" id="machineName" placeholder="Machine name"></div>
+        <div class="input-group"><input type="text" id="machineType" placeholder="Type"></div>
+        <div class="input-group"><select id="machineStatus"><option value="Operational">Operational</option><option value="Maintenance">Maintenance</option></select></div>
+        <button id="saveMachineBtn">Save Machine</button>
+    </div>
+</div>
+
+<!-- CHANGE PASSWORD MODAL -->
+<div id="changePasswordModal" class="modal">
+    <div class="modal-card">
+        <span class="close-btn" id="closeCPModal">&times;</span>
+        <h2>🔐 Change Admin Password</h2>
+        <div class="input-group"><input type="password" id="oldPass" placeholder="Current password"></div>
+        <div class="input-group"><input type="password" id="newPass" placeholder="New password (min 6 chars)"></div>
+        <button id="updatePasswordBtn">Update Password</button>
+    </div>
+</div>
+
+<!-- CUSTOMER DASHBOARD -->
+<div id="customerDashboard" style="display:none;">
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-user"></i> Customer Portal</h1>
+            <div>
+                <span id="customerWelcome" style="margin-right:15px; font-weight:600;"></span>
+                <button id="customerLogoutBtn" class="danger small">Logout</button>
+            </div>
+        </div>
+        <div class="grid-2col">
+            <div class="card" id="cardCustNewOrder">
+                <h3>📝 Place New Order</h3>
+                <label>Full Name</label><input type="text" id="custName" placeholder="Your name">
+                <label>Phone (M-Pesa)</label><input type="tel" id="custPhone" placeholder="0712345678">
+                <label>Email</label><input type="email" id="custEmail" placeholder="your@email.com">
+                <label>Select Service</label><select id="custServiceSelect"></select>
+                <label>Item Description</label><textarea id="custItemDesc" rows="2" placeholder="Color, brand, stains"></textarea>
+                <label>Collection Date</label><input type="date" id="custCollectionDate">
+                <label>Subtotal (KES)</label><input type="number" id="custSubtotal" placeholder="Price before tax" step="0.01">
+                <button id="custCreateOrderBtn">Create Order</button>
+                <div id="custOrderResult"></div>
+            </div>
+            <div class="card" id="cardCustPayOrder">
+                <h3>💰 Pay for an Order</h3>
+                <label>Order Code (CTX...)</label><input type="text" id="paymentOrderCode" placeholder="e.g., CTX123456">
+                <label>Amount (KES)</label><input type="number" id="paymentAmount" placeholder="Total amount" step="0.01">
+                <label>Phone Number (M-Pesa)</label><input type="tel" id="paymentPhone" placeholder="0712345678">
+                <button id="makePaymentBtn">Pay via M-Pesa (Demo)</button>
+                <div id="paymentResult"></div>
+            </div>
+        </div>
+        <div class="card" id="cardCustMyOrders" style="margin-top:2rem;">
+            <h3>📦 My Orders</h3>
+            <button id="refreshOrdersBtn" class="small">Refresh</button>
+            <div id="myOrdersList"></div>
+        </div>
+        <div class="card" id="cardCustComplaint" style="margin-top:2rem;">
+            <h3>⚠️ Submit Complaint</h3>
+            <label>Order ID</label><input type="number" id="complaintOrderIdCust" placeholder="Order ID">
+            <label>Complaint</label><textarea id="complaintTextCust" rows="2" placeholder="Describe issue"></textarea>
+            <button id="submitComplaintCustBtn">Submit Complaint</button>
+            <div id="complaintCustResult"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ADMIN DASHBOARD -->
+<div id="adminDashboard" style="display:none;">
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-tshirt"></i> Admin Panel</h1>
+            <div>
+                <button id="changePwdBtn" class="small" style="margin-right:10px;">Change Password</button>
+                <button id="adminLogoutBtn" class="danger small">Logout</button>
+            </div>
+        </div>
+        <div class="grid-2col">
+            <!-- Media Manager -->
+            <div class="card" id="cardMediaManager">
+                <h3>🖼️ Media Manager</h3>
+                <h4>Section Wallpapers</h4>
+                <div style="margin-bottom:8px;"><strong>Hero</strong><br><input type="file" id="heroUpload" accept="image/*"><br><button onclick="uploadWallpaper('hero')" class="small">Upload Hero</button></div>
+                <div style="margin-bottom:8px;"><strong>Gallery BG</strong><br><input type="file" id="galleryUpload" accept="image/*"><br><button onclick="uploadWallpaper('gallery')" class="small">Upload Gallery BG</button></div>
+                <div style="margin-bottom:8px;"><strong>Services BG</strong><br><input type="file" id="servicesUpload" accept="image/*"><br><button onclick="uploadWallpaper('services')" class="small">Upload Services BG</button></div>
+                <h4 style="margin-top:15px;">Customer Portal Wallpapers</h4>
+                <div style="margin-bottom:8px;"><strong>Place New Order Card</strong><br><input type="file" id="custNewOrderUpload" accept="image/*"><br><button onclick="uploadWallpaper('cust_new_order')" class="small">Upload</button></div>
+                <div style="margin-bottom:8px;"><strong>Pay for Order Card</strong><br><input type="file" id="custPayOrderUpload" accept="image/*"><br><button onclick="uploadWallpaper('cust_pay_order')" class="small">Upload</button></div>
+                <div style="margin-bottom:8px;"><strong>My Orders Card</strong><br><input type="file" id="custMyOrdersUpload" accept="image/*"><br><button onclick="uploadWallpaper('cust_my_orders')" class="small">Upload</button></div>
+                <div style="margin-bottom:15px;"><strong>Submit Complaint Card</strong><br><input type="file" id="custComplaintUpload" accept="image/*"><br><button onclick="uploadWallpaper('cust_complaint')" class="small">Upload</button></div>
+                
+                <h4>Gallery Images</h4>
+                <div style="margin-bottom:8px;"><strong>Coat</strong><br><input type="file" id="coatUpload" accept="image/*"><br><button onclick="uploadGalleryImage('coat')" class="small">Upload</button></div>
+                <div style="margin-bottom:8px;"><strong>Wedding</strong><br><input type="file" id="weddingUpload" accept="image/*"><br><button onclick="uploadGalleryImage('wedding')" class="small">Upload</button></div>
+                <div style="margin-bottom:8px;"><strong>Suit</strong><br><input type="file" id="suitUpload" accept="image/*"><br><button onclick="uploadGalleryImage('suit')" class="small">Upload</button></div>
+                <div style="margin-bottom:15px;"><strong>Leather</strong><br><input type="file" id="leatherUpload" accept="image/*"><br><button onclick="uploadGalleryImage('leather')" class="small">Upload</button></div>
+                
+                <h4>Card Watermarks (Full Background)</h4>
+                <div id="watermarkUploads"></div>
+            </div>
+
+            <!-- Business Settings -->
+            <div class="card" id="cardBusinessSettings">
+                <h3>⚙️ Business Settings</h3>
+                <label>Tax Rate (%)</label>
+                <input type="number" id="taxNumber" step="0.5" value="8">
+                <button id="saveTaxBtn" class="small">Save Tax Rate</button>
+                <hr>
+                <h3>🛍️ Manage Services</h3>
+                <div id="servicesAdminList"></div>
+                <div style="background:rgba(248,250,252,0.9); padding:15px; border-radius:20px; margin-top:10px;">
+                    <input type="text" id="newServiceName" placeholder="Item name">
+                    <textarea id="newServiceDesc" rows="2" placeholder="Description"></textarea>
+                    <input type="number" id="newServicePrice" placeholder="Price (KES)" step="0.01">
+                    <button id="addServiceBtn" class="small">+ Add Service</button>
+                </div>
+            </div>
+
+            <!-- New Order -->
+            <div class="card" id="cardNewOrder">
+                <h3>➕ New Order (Admin)</h3>
+                <label>Client Name</label><input type="text" id="clientName">
+                <label>Phone</label><input type="tel" id="phone">
+                <label>Email</label><input type="email" id="email">
+                <label>Service</label><select id="serviceSelect"></select>
+                <label>Item Description</label><textarea id="itemDesc" rows="2"></textarea>
+                <label>Collection Date</label><input type="date" id="collectionDate">
+                <label>Subtotal (KES)</label><input type="number" id="subtotal" step="0.01">
+                <button id="createOrderBtn">Create Order</button>
+                <div id="orderResult"></div>
+            </div>
+
+            <!-- Track Order -->
+            <div class="card" id="cardTrackOrder">
+                <h3>🔍 Track Order</h3>
+                <label>Order Code</label><input type="text" id="trackCode" placeholder="CTX...">
+                <button id="trackBtn" class="small">Track</button>
+                <div id="trackDetails" style="background:rgba(245,245,245,0.9); padding:15px; border-radius:20px; margin-top:10px; white-space:pre-wrap; font-family:monospace; font-size:0.85rem;"></div>
+            </div>
+
+            <!-- All Users -->
+            <div class="card" id="cardAllUsers">
+                <h3>👥 All Users</h3>
+                <button id="loadUsersBtn" class="small">Refresh</button>
+                <div id="usersList"></div>
+            </div>
+
+            <!-- Financial -->
+            <div class="card" id="cardFinancial">
+                <h3>💰 Financial Overview (KES)</h3>
+                <button id="loadFinancialsBtn" class="small">Refresh</button>
+                <div id="financials" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:15px;"></div>
+            </div>
+
+            <!-- Workers & Machines -->
+            <div class="card" id="cardWorkersMachines">
+                <h3>👔 Workers & Machines</h3>
+                <strong>Workers</strong>
+                <div id="workersList"></div>
+                <button id="addWorkerBtn" class="small">+ Add Worker</button>
+                <hr>
+                <strong>Machines</strong>
+                <div id="machinesList"></div>
+                <button id="addMachineBtn" class="small">+ Add Machine</button>
+            </div>
+
+            <!-- Complaints -->
+            <div class="card" id="cardComplaints">
+                <h3>⚠️ Complaints</h3>
+                <button id="loadComplaintsBtn" class="small">Refresh</button>
+                <div id="complaintsListFull"></div>
+                <hr>
+                <label>Order ID</label><input type="number" id="complaintOrderId">
+                <label>Complaint</label><textarea id="complaintText" rows="2"></textarea>
+                <button id="submitComplaintBtn" class="small">Submit Complaint</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-left">
+            <span>&copy; 2026 Cleantex Dry Cleaners</span>
+            <span>safarisoftwares@gmail.com</span>
+            <a id="privacyLink">Privacy Policy</a>
+            <a id="termsLink">Terms of Use</a>
+        </div>
+        <div class="footer-right">
+            <button onclick="window.scrollTo({top:0, behavior:'smooth'})"><i class="fas fa-arrow-up"></i> Back to Top</button>
+        </div>
+    </div>
+</footer>
+
+<script>
+const API_BASE = window.location.origin;
+const CARD_KEYS = ['media_manager', 'business_settings', 'new_order', 'track_order', 'all_users', 'financial', 'workers_machines', 'complaints', 'cust_new_order', 'cust_pay_order', 'cust_my_orders', 'cust_complaint'];
+const CARD_LABELS = {
+    'media_manager':'Media Manager','business_settings':'Business Settings','new_order':'New Order','track_order':'Track Order',
+    'all_users':'All Users','financial':'Financial','workers_machines':'Workers & Machines','complaints':'Complaints',
+    'cust_new_order':'Place New Order','cust_pay_order':'Pay for Order','cust_my_orders':'My Orders','cust_complaint':'Submit Complaint'
+};
+const CARD_ID_MAP = {
+    'media_manager':'cardMediaManager','business_settings':'cardBusinessSettings','new_order':'cardNewOrder',
+    'track_order':'cardTrackOrder','all_users':'cardAllUsers','financial':'cardFinancial',
+    'workers_machines':'cardWorkersMachines','complaints':'cardComplaints',
+    'cust_new_order':'cardCustNewOrder','cust_pay_order':'cardCustPayOrder',
+    'cust_my_orders':'cardCustMyOrders','cust_complaint':'cardCustComplaint'
+};
+
+async function fetchJson(url, options = {}) {
+    try {
+        const res = await fetch(url, { credentials: 'include', ...options });
+        if (!res.ok) throw new Error(await res.text());
+        return await res.json();
+    } catch(e) { console.error('API Error:', e); throw e; }
+}
+
+// ==================== WALLPAPERS ====================
+async function loadWallpapers() {
+    try {
+        const keys = ['hero','gallery','services','cust_new_order','cust_pay_order','cust_my_orders','cust_complaint'];
+        for (const key of keys) {
+            const resp = await fetch(`${API_BASE}/api/settings/${key}_wallpaper`, {credentials:'include'});
+            const data = await resp.json();
+            if (!data.value) continue;
+            const url = `${data.value}?t=${Date.now()}`;
+            if (key === 'hero') {
+                const el = document.getElementById('heroSection');
+                el.style.backgroundImage = `url('${url}')`;
+                el.style.backgroundAttachment = 'fixed';
+            } else if (key === 'gallery') {
+                document.getElementById('gallerySection').style.backgroundImage = `url('${url}')`;
+            } else if (key === 'services') {
+                document.getElementById('servicesSection').style.backgroundImage = `url('${url}')`;
+            } else if (key === 'cust_new_order') {
+                document.getElementById('cardCustNewOrder').style.backgroundImage = `url('${url}')`;
+            } else if (key === 'cust_pay_order') {
+                document.getElementById('cardCustPayOrder').style.backgroundImage = `url('${url}')`;
+            } else if (key === 'cust_my_orders') {
+                document.getElementById('cardCustMyOrders').style.backgroundImage = `url('${url}')`;
+            } else if (key === 'cust_complaint') {
+                document.getElementById('cardCustComplaint').style.backgroundImage = `url('${url}')`;
+            }
+        }
+    } catch(e) { console.error('Wallpaper load error:', e); }
+}
+
+async function uploadWallpaper(section) {
+    const input = document.getElementById(`${section.replace(/_/g,'')}Upload`);
+    if (!input || !input.files[0]) { alert('Select an image'); return; }
+    const fd = new FormData();
+    fd.append('image', input.files[0]);
+    fd.append('section', section);
+    try {
+        const data = await fetchJson(`${API_BASE}/api/upload-wallpaper`, { method:'POST', body:fd });
+        if (data.success) { alert('Wallpaper updated!'); loadWallpapers(); input.value = ''; }
+        else alert('Upload failed');
+    } catch(e) { alert('Upload failed'); }
+}
+
+// ==================== GALLERY IMAGES ====================
+async function loadGalleryImages() {
+    try {
+        const images = await fetchJson(`${API_BASE}/api/gallery-images`);
+        const container = document.getElementById('galleryGrid');
+        const items = [
+            { label: '🧥 Wool Coat Restoration', imgKey: 'coat_img' },
+            { label: '👗 Wedding Gown Preservation', imgKey: 'wedding_img' },
+            { label: '👔 Premium Suit Care', imgKey: 'suit_img' },
+            { label: '🧥 Leather Specialists', imgKey: 'leather_img' }
+        ];
+        container.innerHTML = items.map(item => {
+            const src = images[item.imgKey] ? `${images[item.imgKey]}?t=${Date.now()}` : `https://placehold.co/400x300/e2e8f0/64748b?text=${encodeURIComponent(item.label)}`;
+            return `<div class="gallery-card"><img src="${src}" alt="${item.label}"><p>${item.label}</p></div>`;
+        }).join('');
+    } catch(e) { console.error(e); }
+}
+
+async function uploadGalleryImage(type) {
+    const input = document.getElementById(`${type}Upload`);
+    if (!input || !input.files[0]) { alert('Select an image'); return; }
+    const fd = new FormData();
+    fd.append('image', input.files[0]);
+    fd.append('type', type);
+    try {
+        const data = await fetchJson(`${API_BASE}/api/upload-gallery-image`, { method:'POST', body:fd });
+        if (data.success) { alert('Image uploaded!'); loadGalleryImages(); input.value = ''; }
+        else alert('Upload failed');
+    } catch(e) { alert('Upload failed'); }
+}
+
+// ==================== CARD WATERMARKS ====================
+function buildWatermarkUploads() {
+    const container = document.getElementById('watermarkUploads');
+    if (!container) return;
+    container.innerHTML = CARD_KEYS.map(key => `
+        <div style="margin-bottom:8px;"><strong>${CARD_LABELS[key]}</strong><br>
+        <input type="file" id="wm_${key}" accept="image/*"><br>
+        <button onclick="uploadCardWatermark('${key}')" class="small">Upload</button></div>
+    `).join('');
+}
+
+async function loadCardWatermarks() {
+    try {
+        const watermarks = await fetchJson(`${API_BASE}/api/card-watermarks`);
+        for (const [key, cardId] of Object.entries(CARD_ID_MAP)) {
+            const card = document.getElementById(cardId);
+            if (card && watermarks[key]) {
+                card.style.backgroundImage = `url('${watermarks[key]}?t=${Date.now()}')`;
+                card.style.backgroundSize = 'cover';
+                card.style.backgroundPosition = 'center';
+                card.style.backgroundRepeat = 'no-repeat';
+            }
+        }
+    } catch(e) { console.error(e); }
+}
+
+async function uploadCardWatermark(cardKey) {
+    const input = document.getElementById(`wm_${cardKey}`);
+    if (!input || !input.files[0]) { alert('Select an image'); return; }
+    const fd = new FormData();
+    fd.append('image', input.files[0]);
+    fd.append('card_key', cardKey);
+    try {
+        const data = await fetchJson(`${API_BASE}/api/upload-card-watermark`, { method:'POST', body:fd });
+        if (data.success) { alert('Watermark uploaded!'); loadCardWatermarks(); input.value = ''; }
+        else alert('Upload failed');
+    } catch(e) { alert('Upload failed'); }
+}
+
+// ==================== SERVICES ====================
+async function loadServices(selectId) {
+    try {
+        const data = await fetchJson(`${API_BASE}/api/services`);
+        const chipsDiv = document.getElementById('serviceChipsPreview');
+        if (chipsDiv) chipsDiv.innerHTML = data.map(s => `<div class="chip">${s.name} – KES ${s.price.toFixed(2)}</div>`).join('');
+        if (selectId) {
+            const select = document.getElementById(selectId);
+            if (select) {
+                select.innerHTML = data.map(s => `<option value="${s.id}" data-price="${s.price}">${s.name} – KES ${s.price.toFixed(2)}</option>`).join('');
+                select.onchange = function() {
+                    const price = parseFloat(select.options[select.selectedIndex]?.dataset.price);
+                    if (!isNaN(price)) {
+                        const field = document.getElementById(selectId === 'custServiceSelect' ? 'custSubtotal' : 'subtotal');
+                        if (field) field.value = price;
+                    }
+                };
+                if (select.options.length > 0) select.onchange();
+            }
+        }
+    } catch(e) { console.error(e); }
+}
+
+async function renderServicesAdmin() {
+    try {
+        const services = await fetchJson(`${API_BASE}/api/services`);
+        const container = document.getElementById('servicesAdminList');
+        if (!container) return;
+        container.innerHTML = services.map(s => `
+            <div class="service-item">
+                <div><strong>${s.name}</strong><br><small>${s.description}</small><br>KES ${s.price.toFixed(2)}</div>
+                <div>
+                    <button onclick="editServicePrompt(${s.id},'${s.name.replace(/'/g,"&#39;")}','${s.description.replace(/'/g,"&#39;")}',${s.price})" class="small">Edit</button>
+                    <button onclick="deleteService(${s.id})" class="small danger">Del</button>
+                </div>
+            </div>
+        `).join('');
+    } catch(e) { console.error(e); }
+}
+
+async function addService() {
+    const name = document.getElementById('newServiceName').value.trim();
+    const desc = document.getElementById('newServiceDesc').value.trim();
+    const price = parseFloat(document.getElementById('newServicePrice').value);
+    if (!name || isNaN(price) || price <= 0) { alert('Fill name and valid price'); return; }
+    try {
+        await fetchJson(`${API_BASE}/api/services`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name, description:desc, price}) });
+        document.getElementById('newServiceName').value = '';
+        document.getElementById('newServiceDesc').value = '';
+        document.getElementById('newServicePrice').value = '';
+        renderServicesAdmin();
+        loadServices('serviceSelect');
+        loadServices('custServiceSelect');
+    } catch(e) { alert('Failed'); }
+}
+
+function editServicePrompt(id, oldName, oldDesc, oldPrice) {
+    const name = prompt("Service name:", oldName);
+    if (!name) return;
+    const desc = prompt("Description:", oldDesc);
+    const price = parseFloat(prompt("Price (KES):", oldPrice));
+    if (isNaN(price) || price <= 0) return;
+    fetchJson(`${API_BASE}/api/services/${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name, description:desc||'', price}) })
+        .then(() => { renderServicesAdmin(); loadServices('serviceSelect'); loadServices('custServiceSelect'); })
+        .catch(() => alert('Failed'));
+}
+
+async function deleteService(id) {
+    if (!confirm("Delete this service?")) return;
+    try {
+        await fetchJson(`${API_BASE}/api/services/${id}`, { method:'DELETE' });
+        renderServicesAdmin();
+        loadServices('serviceSelect');
+        loadServices('custServiceSelect');
+    } catch(e) { alert('Failed'); }
+}
+
+// ==================== TAX ====================
+async function loadTaxRate() {
+    try { const data = await fetchJson(`${API_BASE}/api/taxrate`); document.getElementById('taxNumber').value = data.rate; }
+    catch(e) { console.error(e); }
+}
+async function saveTaxRate() {
+    const rate = parseFloat(document.getElementById('taxNumber').value);
+    if (isNaN(rate) || rate < 0) { alert('Enter valid tax rate'); return; }
+    try { await fetchJson(`${API_BASE}/api/taxrate`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({tax_rate:rate}) }); alert('Saved!'); }
+    catch(e) { alert('Failed'); }
+}
+
+// ==================== ORDERS ====================
+async function createOrder() {
+    const name = document.getElementById('clientName').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const serviceId = document.getElementById('serviceSelect').value;
+    const itemDesc = document.getElementById('itemDesc').value.trim();
+    const collDate = document.getElementById('collectionDate').value;
+    const subtotal = parseFloat(document.getElementById('subtotal').value);
+    if (!name || !phone || !collDate || !serviceId || isNaN(subtotal) || subtotal <= 0) { alert('Fill all required fields'); return; }
+    try {
+        const data = await fetchJson(`${API_BASE}/api/order`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name, phone, email, service_id:serviceId, item_description:itemDesc, collection_date:collDate, subtotal}) });
+        document.getElementById('orderResult').innerHTML = `<div class="result-message success">✅ Order created!<br>Code: ${data.order_code}<br>Total: KES ${data.total.toFixed(2)}</div>`;
+    } catch(e) { document.getElementById('orderResult').innerHTML = `<div class="result-message error">❌ Failed</div>`; }
+}
+async function trackOrder() {
+    const code = document.getElementById('trackCode').value.trim();
+    if (!code) { alert('Enter order code'); return; }
+    try { const order = await fetchJson(`${API_BASE}/api/order/${code}`); document.getElementById('trackDetails').textContent = order.error ? 'Not found' : JSON.stringify(order, null, 2); }
+    catch(e) { document.getElementById('trackDetails').textContent = 'Not found'; }
+}
+
+// ==================== USERS ====================
+async function loadAllUsers() {
+    try {
+        const users = await fetchJson(`${API_BASE}/api/users`);
+        document.getElementById('usersList').innerHTML = users.map(u => `
+            <div class="user-row">
+                <div><strong>${u.full_name || u.username}</strong><br><small>${u.email} | ${u.role} | ${u.is_active?'Active':'Suspended'}</small></div>
+                <div>
+                    <button onclick="resetUserPassword(${u.id})" class="small">Reset PWD</button>
+                    <button onclick="suspendUser(${u.id}, ${u.is_active})" class="small ${u.is_active?'danger':''}">${u.is_active?'Suspend':'Activate'}</button>
+                </div>
+            </div>
+        `).join('');
+    } catch(e) { console.error(e); }
+}
+async function resetUserPassword(uid) {
+    if (!confirm('Reset password?')) return;
+    try { const data = await fetchJson(`${API_BASE}/api/users/${uid}/reset-password`, { method:'POST' }); alert(`New password: ${data.new_password}`); }
+    catch(e) { alert('Failed'); }
+}
+async function suspendUser(uid, isActive) {
+    if (!confirm(`${isActive?'Suspend':'Activate'} this user?`)) return;
+    try { await fetchJson(`${API_BASE}/api/users/${uid}/suspend`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({suspend: isActive===1}) }); loadAllUsers(); }
+    catch(e) { alert('Failed'); }
+}
+
+// ==================== FINANCIALS ====================
+async function loadFinancials() {
+    try {
+        const fin = await fetchJson(`${API_BASE}/api/financials`);
+        document.getElementById('financials').innerHTML = `
+            <div class="fin-card" style="background:#e8f5e9;"><strong>💰 Revenue</strong><br>KES ${fin.total_revenue.toFixed(2)}</div>
+            <div class="fin-card" style="background:#e3f2fd;"><strong>📦 Orders</strong><br>${fin.total_orders}</div>
+            <div class="fin-card" style="background:#fff3e0;"><strong>✅ Collected</strong><br>KES ${fin.collected.toFixed(2)}</div>
+            <div class="fin-card" style="background:#ffebee;"><strong>⏳ Pending</strong><br>KES ${fin.pending.toFixed(2)}</div>
+        `;
+    } catch(e) { console.error(e); }
+}
+
+// ==================== WORKERS & MACHINES ====================
+async function loadWorkersMachines() {
+    try {
+        const workers = await fetchJson(`${API_BASE}/api/workers`);
+        const machines = await fetchJson(`${API_BASE}/api/machines`);
+        document.getElementById('workersList').innerHTML = workers.map(w => `
+            <div class="worker-item">
+                <div><strong>${w.name}</strong> - ${w.role||'N/A'}<br>Wage: KES ${(w.wage||0).toFixed(2)}/day</div>
+                <div>
+                    <button onclick="openWorkerForm(${w.id},'${(w.name||'').replace(/'/g,"&#39;")}','${(w.role||'').replace(/'/g,"&#39;")}','${(w.phone||'').replace(/'/g,"&#39;")}',${w.wage||0})" class="small">Edit</button>
+                    <button onclick="deleteWorker(${w.id})" class="small danger">Del</button>
+                </div>
+            </div>
+        `).join('');
+        document.getElementById('machinesList').innerHTML = machines.map(m => `
+            <div class="machine-item">
+                <div><strong>${m.name}</strong> (${m.type||'N/A'}) - ${m.status}</div>
+                <div>
+                    <button onclick="openMachineForm(${m.id},'${(m.name||'').replace(/'/g,"&#39;")}','${(m.type||'').replace(/'/g,"&#39;")}','${(m.status||'').replace(/'/g,"&#39;")}')" class="small">Edit</button>
+                    <button onclick="deleteMachine(${m.id})" class="small danger">Del</button>
+                </div>
+            </div>
+        `).join('');
+    } catch(e) { console.error(e); }
+}
+
+function openWorkerForm(id, name, role, phone, wage) {
+    document.getElementById('workerEditId').value = id || '';
+    document.getElementById('workerName').value = name || '';
+    document.getElementById('workerRole').value = role || '';
+    document.getElementById('workerPhone').value = phone || '';
+    document.getElementById('workerWage').value = wage || 0;
+    document.getElementById('workerFormTitle').textContent = id ? 'Edit Worker' : 'Add Worker';
+    document.getElementById('workerFormModal').classList.add('active');
+}
+async function saveWorker() {
+    const id = document.getElementById('workerEditId').value;
+    const name = document.getElementById('workerName').value.trim();
+    const role = document.getElementById('workerRole').value.trim();
+    const phone = document.getElementById('workerPhone').value.trim();
+    const wage = parseFloat(document.getElementById('workerWage').value) || 0;
+    if (!name) { alert('Name required'); return; }
+    const url = id ? `${API_BASE}/api/workers/${id}` : `${API_BASE}/api/workers`;
+    try {
+        await fetchJson(url, { method:id?'PUT':'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name, role, phone, wage}) });
+        document.getElementById('workerFormModal').classList.remove('active');
+        loadWorkersMachines();
+    } catch(e) { alert('Failed'); }
+}
+async function deleteWorker(id) {
+    if (!confirm('Delete?')) return;
+    try { await fetchJson(`${API_BASE}/api/workers/${id}`, { method:'DELETE' }); loadWorkersMachines(); }
+    catch(e) { alert('Failed'); }
+}
+
+function openMachineForm(id, name, type, status) {
+    document.getElementById('machineEditId').value = id || '';
+    document.getElementById('machineName').value = name || '';
+    document.getElementById('machineType').value = type || '';
+    document.getElementById('machineStatus').value = status || 'Operational';
+    document.getElementById('machineFormTitle').textContent = id ? 'Edit Machine' : 'Add Machine';
+    document.getElementById('machineFormModal').classList.add('active');
+}
+async function saveMachine() {
+    const id = document.getElementById('machineEditId').value;
+    const name = document.getElementById('machineName').value.trim();
+    const type = document.getElementById('machineType').value.trim();
+    const status = document.getElementById('machineStatus').value;
+    if (!name) { alert('Name required'); return; }
+    const url = id ? `${API_BASE}/api/machines/${id}` : `${API_BASE}/api/machines`;
+    try {
+        await fetchJson(url, { method:id?'PUT':'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name, type, status}) });
+        document.getElementById('machineFormModal').classList.remove('active');
+        loadWorkersMachines();
+    } catch(e) { alert('Failed'); }
+}
+async function deleteMachine(id) {
+    if (!confirm('Delete?')) return;
+    try { await fetchJson(`${API_BASE}/api/machines/${id}`, { method:'DELETE' }); loadWorkersMachines(); }
+    catch(e) { alert('Failed'); }
+}
+
+// ==================== COMPLAINTS ====================
+async function loadComplaints() {
+    try {
+        const complaints = await fetchJson(`${API_BASE}/api/complaints`);
+        const container = document.getElementById('complaintsListFull');
+        if (!complaints.length) { container.innerHTML = '<p>No complaints</p>'; return; }
+        container.innerHTML = complaints.map(c => `
+            <div style="background:rgba(248,250,252,0.9);padding:12px;border-radius:20px;margin-bottom:12px;">
+                <strong>Order #${c.order_id}</strong> - ${c.client_name||'N/A'}<br>
+                <strong>Complaint:</strong> ${c.complaint_text}<br>
+                <strong>Status:</strong> ${c.status}<br>
+                ${c.reply ? `<strong>Reply:</strong> ${c.reply}<br>` : ''}
+                ${c.status==='open' ? `<button onclick="replyToComplaint(${c.id})" class="small">Reply</button>` : ''}
+            </div>
+        `).join('');
+    } catch(e) { console.error(e); }
+}
+async function replyToComplaint(cid) {
+    const reply = prompt("Enter reply:");
+    if (!reply) return;
+    try { await fetchJson(`${API_BASE}/api/complaints/${cid}/reply`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({reply}) }); loadComplaints(); }
+    catch(e) { alert('Failed'); }
+}
+async function submitComplaintAdmin() {
+    const orderId = document.getElementById('complaintOrderId').value;
+    const text = document.getElementById('complaintText').value.trim();
+    if (!orderId || !text) { alert('Fill all fields'); return; }
+    try {
+        await fetchJson(`${API_BASE}/api/complaints`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({order_id:parseInt(orderId), complaint_text:text}) });
+        alert('Submitted');
+        document.getElementById('complaintOrderId').value = '';
+        document.getElementById('complaintText').value = '';
+        loadComplaints();
+    } catch(e) { alert('Failed'); }
+}
+
+// ==================== ADMIN PASSWORD ====================
+async function changeAdminPassword() {
+    const old = document.getElementById('oldPass').value;
+    const np = document.getElementById('newPass').value;
+    if (!old || !np || np.length < 6) { alert('Fill both (new min 6 chars)'); return; }
+    try {
+        const data = await fetchJson(`${API_BASE}/api/admin/change-password`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({old_password:old, new_password:np}) });
+        if (data.success) { alert('Password changed!'); document.getElementById('changePasswordModal').classList.remove('active'); }
+        else alert(data.error);
+    } catch(e) { alert('Failed'); }
+}
+
+// ==================== CUSTOMER PORTAL ====================
+async function loadMyOrders() {
+    try {
+        const orders = await fetchJson(`${API_BASE}/api/my-orders`);
+        const container = document.getElementById('myOrdersList');
+        if (!orders.length) { container.innerHTML = '<p>No orders found.</p>'; return; }
+        container.innerHTML = orders.map(o => `
+            <div class="order-card">
+                <strong>Code:</strong> ${o.order_code}<br>
+                <strong>Service:</strong> ${o.service_name||'N/A'}<br>
+                <strong>Status:</strong> ${o.status} | <strong>Payment:</strong> ${o.payment_status}<br>
+                <strong>Total:</strong> KES ${o.total.toFixed(2)}<br>
+                <strong>Order ID:</strong> ${o.id}
+            </div>
+        `).join('');
+    } catch(e) { console.error(e); }
+}
+async function customerCreateOrder() {
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const email = document.getElementById('custEmail').value.trim();
+    const serviceId = document.getElementById('custServiceSelect').value;
+    const itemDesc = document.getElementById('custItemDesc').value.trim();
+    const collDate = document.getElementById('custCollectionDate').value;
+    const subtotal = parseFloat(document.getElementById('custSubtotal').value);
+    if (!name || !phone || !collDate || !serviceId || isNaN(subtotal) || subtotal <= 0) { alert('Fill all required fields'); return; }
+    try {
+        const data = await fetchJson(`${API_BASE}/api/order`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name, phone, email, service_id:serviceId, item_description:itemDesc, collection_date:collDate, subtotal}) });
+        document.getElementById('custOrderResult').innerHTML = `<div class="result-message success">✅ Order created!<br>Code: ${data.order_code}<br>Total: KES ${data.total.toFixed(2)}</div>`;
+        loadMyOrders();
+    } catch(e) { document.getElementById('custOrderResult').innerHTML = `<div class="result-message error">❌ Failed</div>`; }
+}
+async function makePayment() {
+    const orderCode = document.getElementById('paymentOrderCode').value.trim();
+    const amount = parseFloat(document.getElementById('paymentAmount').value);
+    const phone = document.getElementById('paymentPhone').value.trim();
+    if (!orderCode || isNaN(amount) || amount <= 0 || !phone) { alert('Fill all fields'); return; }
+    try {
+        const data = await fetchJson(`${API_BASE}/api/mpesa-payment`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({order_code:orderCode, amount, phone}) });
+        if (data.success) { document.getElementById('paymentResult').innerHTML = `<div class="result-message success">✅ ${data.message}</div>`; loadMyOrders(); }
+    } catch(e) { document.getElementById('paymentResult').innerHTML = `<div class="result-message error">❌ Failed</div>`; }
+}
+async function submitCustomerComplaint() {
+    const orderId = document.getElementById('complaintOrderIdCust').value;
+    const text = document.getElementById('complaintTextCust').value.trim();
+    if (!orderId || !text) { alert('Fill all fields'); return; }
+    try {
+        const data = await fetchJson(`${API_BASE}/api/customer-complaint`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({order_id:parseInt(orderId), complaint_text:text}) });
+        if (data.success) { alert('Complaint submitted!'); document.getElementById('complaintOrderIdCust').value=''; document.getElementById('complaintTextCust').value=''; }
+        else alert(data.error);
+    } catch(e) { alert('Failed to submit complaint'); }
+}
+async function customerLogout() {
+    try { await fetchJson(`${API_BASE}/api/logout`, { method:'POST' }); } catch(e) {}
+    location.reload();
+}
+
+// ==================== AUTH ====================
+const authModal = document.getElementById('authModal');
+document.getElementById('proceedBtn').onclick = () => {
+    document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+    authModal.classList.add('active');
+    document.getElementById('loginView').style.display = 'block';
+    document.getElementById('registerView').style.display = 'none';
+    document.getElementById('forgotView').style.display = 'none';
+};
+document.getElementById('closeAuthModal').onclick = () => authModal.classList.remove('active');
+document.getElementById('showRegisterView').onclick = (e) => { e.preventDefault(); document.getElementById('loginView').style.display='none'; document.getElementById('registerView').style.display='block'; document.getElementById('forgotView').style.display='none'; };
+document.getElementById('showLoginView').onclick = (e) => { e.preventDefault(); document.getElementById('loginView').style.display='block'; document.getElementById('registerView').style.display='none'; document.getElementById('forgotView').style.display='none'; };
+document.getElementById('showForgotView').onclick = (e) => { e.preventDefault(); document.getElementById('loginView').style.display='none'; document.getElementById('registerView').style.display='none'; document.getElementById('forgotView').style.display='block'; };
+document.getElementById('backToLoginView').onclick = (e) => { e.preventDefault(); document.getElementById('loginView').style.display='block'; document.getElementById('registerView').style.display='none'; document.getElementById('forgotView').style.display='none'; };
+
+document.getElementById('loginBtn').onclick = async () => {
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    if (!username || !password) { alert('Enter credentials'); return; }
+    try {
+        const data = await fetchJson(`${API_BASE}/api/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username, password}) });
+        if (data.success) {
+            authModal.classList.remove('active');
+            if (data.role === 'admin') showAdminDashboard();
+            else showCustomerDashboard(data.username);
+        }
+    } catch(e) { alert('Login failed'); }
+};
+document.getElementById('registerBtn').onclick = async () => {
+    const full_name = document.getElementById('regFullName').value.trim();
+    const username = document.getElementById('regUsername').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const phone = document.getElementById('regPhone').value.trim();
+    const password = document.getElementById('regPassword').value;
+    if (!full_name || !username || !email || !phone || !password) { alert('All fields required'); return; }
+    if (password.length < 6) { alert('Password too short'); return; }
+    try {
+        const data = await fetchJson(`${API_BASE}/api/register`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({full_name, username, email, phone, password}) });
+        if (data.success) { alert('Registered! Please login.'); document.getElementById('loginView').style.display='block'; document.getElementById('registerView').style.display='none'; }
+    } catch(e) { alert('Registration failed'); }
+};
+document.getElementById('forgotBtn').onclick = async () => {
+    const email = document.getElementById('resetEmail').value.trim();
+    if (!email) { alert('Enter email'); return; }
+    try {
+        const data = await fetchJson(`${API_BASE}/api/forgot-password`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email}) });
+        if (data.success) document.getElementById('resetMessage').innerHTML = `<div class="result-message success">Token: ${data.token}</div>`;
+    } catch(e) { alert('Email not found'); }
+};
+
+// ==================== DASHBOARD MANAGEMENT ====================
+function showAdminDashboard() {
+    document.getElementById('adminDashboard').style.display = 'block';
+    document.getElementById('customerDashboard').style.display = 'none';
+    loadWallpapers();
+    loadGalleryImages();
+    loadTaxRate();
+    loadServices('serviceSelect');
+    loadAllUsers();
+    loadFinancials();
+    loadWorkersMachines();
+    loadComplaints();
+    renderServicesAdmin();
+    loadCardWatermarks();
+    buildWatermarkUploads();
+}
+function showCustomerDashboard(username) {
+    document.getElementById('customerDashboard').style.display = 'block';
+    document.getElementById('adminDashboard').style.display = 'none';
+    document.getElementById('customerWelcome').textContent = 'Welcome, ' + username + '!';
+    loadWallpapers();
+    loadGalleryImages();
+    loadServices('custServiceSelect');
+    loadMyOrders();
+}
+
+// ==================== EVENT LISTENERS ====================
+document.getElementById('saveTaxBtn')?.addEventListener('click', saveTaxRate);
+document.getElementById('addServiceBtn')?.addEventListener('click', addService);
+document.getElementById('createOrderBtn')?.addEventListener('click', createOrder);
+document.getElementById('trackBtn')?.addEventListener('click', trackOrder);
+document.getElementById('loadUsersBtn')?.addEventListener('click', loadAllUsers);
+document.getElementById('loadFinancialsBtn')?.addEventListener('click', loadFinancials);
+document.getElementById('loadComplaintsBtn')?.addEventListener('click', loadComplaints);
+document.getElementById('submitComplaintBtn')?.addEventListener('click', submitComplaintAdmin);
+document.getElementById('changePwdBtn')?.addEventListener('click', () => document.getElementById('changePasswordModal').classList.add('active'));
+document.getElementById('updatePasswordBtn')?.addEventListener('click', changeAdminPassword);
+document.getElementById('addWorkerBtn')?.addEventListener('click', () => openWorkerForm());
+document.getElementById('addMachineBtn')?.addEventListener('click', () => openMachineForm());
+document.getElementById('saveWorkerBtn')?.addEventListener('click', saveWorker);
+document.getElementById('saveMachineBtn')?.addEventListener('click', saveMachine);
+document.getElementById('adminLogoutBtn')?.addEventListener('click', async () => { try { await fetchJson(`${API_BASE}/api/logout`,{method:'POST'}); } catch(e) {} location.reload(); });
+
+document.getElementById('custCreateOrderBtn')?.addEventListener('click', customerCreateOrder);
+document.getElementById('makePaymentBtn')?.addEventListener('click', makePayment);
+document.getElementById('refreshOrdersBtn')?.addEventListener('click', loadMyOrders);
+document.getElementById('submitComplaintCustBtn')?.addEventListener('click', submitCustomerComplaint);
+document.getElementById('customerLogoutBtn')?.addEventListener('click', customerLogout);
+
+document.getElementById('closeCPModal')?.addEventListener('click', () => document.getElementById('changePasswordModal').classList.remove('active'));
+document.getElementById('closeWorkerModal')?.addEventListener('click', () => document.getElementById('workerFormModal').classList.remove('active'));
+document.getElementById('closeMachineModal')?.addEventListener('click', () => document.getElementById('machineFormModal').classList.remove('active'));
+document.getElementById('closePrivacyBtn')?.addEventListener('click', () => document.getElementById('privacyModal').classList.remove('active'));
+document.getElementById('closeTermsBtn')?.addEventListener('click', () => document.getElementById('termsModal').classList.remove('active'));
+document.getElementById('privacyLink').onclick = () => document.getElementById('privacyModal').classList.add('active');
+document.getElementById('termsLink').onclick = () => document.getElementById('termsModal').classList.add('active');
+
+window.onclick = (e) => { if (e.target.classList.contains('modal')) e.target.classList.remove('active'); };
+
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('toggle-password')) {
+        const target = document.getElementById(e.target.getAttribute('data-target'));
+        if (target) {
+            target.type = target.type === 'password' ? 'text' : 'password';
+            e.target.classList.toggle('fa-eye');
+            e.target.classList.toggle('fa-eye-slash');
+        }
+    }
+});
+
+// ==================== INITIAL LOAD ====================
+loadWallpapers();
+loadGalleryImages();
+loadServices(null);
+buildWatermarkUploads();
+
+fetch(`${API_BASE}/api/check-auth`, {credentials:'include'}).then(r=>r.json()).then(data => {
+    if (data.authenticated) {
+        if (data.role === 'admin') showAdminDashboard();
+        else showCustomerDashboard(data.username);
+    }
+}).catch(() => {});
+</script>
+</body>
+</html>
